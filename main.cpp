@@ -1,16 +1,16 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <list>
+#include <set>
 #include "Goat.h"
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-string select_goat(list<Goat> trip);
-void delete_goat(list<Goat> &trip);
-void add_goat(list<Goat> &trip, string [], string []);
-void display_trip(list<Goat> trip);
+string select_goat(set<Goat> trip);
+void delete_goat(set<Goat> &trip);
+void add_goat(set<Goat> &trip, string [], string []);
+void display_trip(set<Goat> trip);
 int main_menu();
 
 int main() {
@@ -28,7 +28,7 @@ int main() {
     i = 0;
     while (fin1 >> colors[i++]);
     fin1.close();
-    list<Goat> trip;
+    set<Goat> trip;
     again = true;
     while (again) {
         int choice = main_menu();
@@ -74,11 +74,11 @@ int main_menu() {
   }
   return choice;
 }
-void add_goat(list<Goat> &trip, string names[], string colors[]) {
-  trip.push_back(Goat(names[rand() % SZ_NAMES], rand() % (MAX_AGE + 1),
-                      colors[rand() % SZ_COLORS]));
+void add_goat(set<Goat> &trip, string names[], string colors[]) {
+   Goat newGoat(names[rand() % SZ_NAMES], rand() % (MAX_AGE + 1), colors[rand() % SZ_COLORS]);
+    trip.insert(newGoat);
 }
-void delete_goat(list<Goat> &trip) {
+void delete_goat(set<Goat> &trip) {
   string choice = select_goat(trip);
   for (auto it = trip.begin(); it != trip.end(); ++it) {
     if (it->get_name() == choice) {
@@ -88,7 +88,7 @@ void delete_goat(list<Goat> &trip) {
   }
 }
 
-void display_trip(list<Goat> trip) {
+void display_trip(set<Goat> trip) {
   int index = 1;
   for (auto it : trip) {
 
@@ -96,7 +96,7 @@ void display_trip(list<Goat> trip) {
          << ", " << it.get_color() << ")" << endl;
   }
 }
-string select_goat(list<Goat> trip) {
+string select_goat(set<Goat> trip) {
   display_trip(trip);
   string choice;
   cout << "select a goat: ";
